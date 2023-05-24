@@ -165,7 +165,7 @@ export class AuthenticateWebAuthnStageForm extends ModelForm<AuthenticateWebAuth
                                     value: AuthenticatorAttachmentEnum.Platform,
                                 },
                                 {
-                                    label: msg('A "roaming" authenticator, like a YubiKey'),
+                                    label: msg("A \"roaming\" authenticator, like a YubiKey"),
                                     value: AuthenticatorAttachmentEnum.CrossPlatform,
                                 },
                             ]}

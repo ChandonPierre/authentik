@@ -97,7 +97,7 @@ export class UserLoginStageForm extends ModelForm<UserLoginStage, string> {
                         />
                         <p class="pf-c-form__helper-text">
                             ${msg(
-                                'If set to a duration above 0, the user will have the option to choose to "stay signed in", which will extend their session by the time specified here.',
+                                "If set to a duration above 0, the user will have the option to choose to \"stay signed in\", which will extend their session by the time specified here.",
                             )}
                         </p>
                         <ak-utils-time-delta-help></ak-utils-time-delta-help>

@@ -437,7 +437,7 @@ export class TenantForm extends ModelForm<Tenant, string> {
                         </p>
                         <p class="pf-c-form__helper-text">
                             ${msg(
-                                'When using an external logging solution for archiving, this can be set to "minutes=5".',
+                                "When using an external logging solution for archiving, this can be set to \"minutes=5\".",
                             )}
                         </p>
                         <p class="pf-c-form__helper-text">
@@ -446,7 +446,7 @@ export class TenantForm extends ModelForm<Tenant, string> {
                             )}
                         </p>
                         <p class="pf-c-form__helper-text">
-                            ${msg('Format: "weeks=3;days=2;hours=3,seconds=2".')}
+                            ${msg("Format: \"weeks=3;days=2;hours=3,seconds=2\".")}
                         </p>
                     </ak-form-element-horizontal>
                     <ak-form-element-horizontal label=${msg("Attributes")} name="attributes">

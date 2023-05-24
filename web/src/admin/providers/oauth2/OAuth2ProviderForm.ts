@@ -246,7 +246,7 @@ ${this.instance?.redirectUris}</textarea
                         </p>
                         <p class="pf-c-form__helper-text">
                             ${msg(
-                                'To allow any redirect URI, set this value to ".*". Be aware of the possible security implications this can have.',
+                                "To allow any redirect URI, set this value to \".*\". Be aware of the possible security implications this can have.",
                             )}
                         </p>
                     </ak-form-element-horizontal>
