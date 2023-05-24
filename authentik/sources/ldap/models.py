@@ -109,6 +109,10 @@ class LDAPSource(Source):
         """Get LDAP Server/ServerPool"""
         servers = []
         tls_kwargs = {}
+        tls_kwargs["sni"] = self.server_uri
+        tls_kwargs["local_private_key_file"] = '/ldap-tls/tls.key'
+        tls_kwargs["local_certificate_file"] = '/ldap-tls/tls.crt'
+        tls_kwargs["validate"] = CERT_REQUIRED
         if self.peer_certificate:
             tls_kwargs["ca_certs_data"] = self.peer_certificate.certificate_data
             tls_kwargs["validate"] = CERT_REQUIRED
