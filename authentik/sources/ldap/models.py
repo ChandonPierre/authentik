@@ -138,8 +138,10 @@ class LDAPSource(Source):
         """Get a fully connected and bound LDAP Connection"""
         server_kwargs = server_kwargs or {}
         connection_kwargs = connection_kwargs or {}
-        connection_kwargs.setdefault("user", self.bind_cn)
-        connection_kwargs.setdefault("password", self.bind_password)
+        if self.bind_cn is not None:
+            connection_kwargs.setdefault("user", self.bind_cn)
+        if self.bind_password is not None:
+            connection_kwargs.setdefault("password", self.bind_password)
         connection = Connection(
             self.server(**server_kwargs),
             raise_exceptions=True,
