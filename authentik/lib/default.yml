@@ -67,6 +67,7 @@ ldap:
   task_timeout_hours: 2
   tls:
     ciphers: null
+    sni: null
 
 cookie_domain: null
 disable_update_check: false
