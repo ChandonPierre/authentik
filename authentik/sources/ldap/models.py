@@ -1,4 +1,5 @@
 """authentik LDAP Models"""
+import tempfile
 from ssl import CERT_REQUIRED
 from typing import Optional
 
@@ -43,6 +44,16 @@ class LDAPSource(Source):
             "Optionally verify the LDAP Server's Certificate against the CA Chain in this keypair."
         ),
     )
+    client_certificate = models.ForeignKey(
+        CertificateKeyPair,
+        on_delete=models.SET_DEFAULT,
+        default=None,
+        null=True,
+        help_text=_(
+            "Client certificate to authenticate against the LDAP Server's Certificate."
+        ),
+    )
+
 
     bind_cn = models.TextField(verbose_name=_("Bind CN"), blank=True)
     bind_password = models.TextField(blank=True)
@@ -109,11 +120,18 @@ class LDAPSource(Source):
         """Get LDAP Server/ServerPool"""
         servers = []
         tls_kwargs = {}
-        tls_kwargs["local_private_key_file"] = '/ldap-tls/tls.key'
-        tls_kwargs["local_certificate_file"] = '/ldap-tls/tls.crt'
-        tls_kwargs["validate"] = CERT_REQUIRED
         if self.peer_certificate:
             tls_kwargs["ca_certs_data"] = self.peer_certificate.certificate_data
+            tls_kwargs["validate"] = CERT_REQUIRED
+        if self.client_certificate:
+            with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_cert:
+                temp_cert.write(self.client_certificate.certificate_data)
+                certificate_file = temp_cert.name
+            with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_key:
+                temp_key.write(self.client_certificate.key_data)
+                private_key_file = temp_key.name
+            tls_kwargs["local_private_key_file"] = private_key_file
+            tls_kwargs["local_certificate_file"] = certificate_file
             tls_kwargs["validate"] = CERT_REQUIRED
         if ciphers := CONFIG.y("ldap.tls.ciphers", None):
             tls_kwargs["ciphers"] = ciphers.strip()

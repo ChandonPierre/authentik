@@ -218,6 +218,42 @@ export class LDAPSourceForm extends ModelForm<LDAPSource, string> {
                             ${t`When connecting to an LDAP Server with TLS, certificates are not checked by default. Specify a keypair to validate the remote certificate.`}
                         </p>
                     </ak-form-element-horizontal>
+                    <ak-form-element-horizontal
+                        label=${t`TLS Verification Certificate`}
+                        name="clientCertificate"
+                    >
+                        <ak-search-select
+                            .fetchObjects=${async (
+                                query?: string,
+                            ): Promise<CertificateKeyPair[]> => {
+                                const args: CryptoCertificatekeypairsListRequest = {
+                                    ordering: "name",
+                                    includeDetails: false,
+                                };
+                                if (query !== undefined) {
+                                    args.search = query;
+                                }
+                                const certificates = await new CryptoApi(
+                                    DEFAULT_CONFIG,
+                                ).cryptoCertificatekeypairsList(args);
+                                return certificates.results;
+                            }}
+                            .renderElement=${(item: CertificateKeyPair): string => {
+                                return item.name;
+                            }}
+                            .value=${(item: CertificateKeyPair | undefined): string | undefined => {
+                                return item?.pk;
+                            }}
+                            .selected=${(item: CertificateKeyPair): boolean => {
+                                return item.pk === this.instance?.clientCertificate;
+                            }}
+                            ?blankable=${true}
+                        >
+                        </ak-search-select>
+                        <p class="pf-c-form__helper-text">
+                            ${t`Client certificate keypair to authenticate against the LDAP Server's Certificate.`}
+                        </p>
+                    </ak-form-element-horizontal>
                     <ak-form-element-horizontal label=${t`Bind CN`} name="bindCn">
                         <input
                             type="text"

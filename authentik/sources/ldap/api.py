@@ -42,6 +42,7 @@ class LDAPSourceSerializer(SourceSerializer):
         fields = SourceSerializer.Meta.fields + [
             "server_uri",
             "peer_certificate",
+            "client_certificate",
             "bind_cn",
             "bind_password",
             "start_tls",
@@ -75,6 +76,7 @@ class LDAPSourceViewSet(UsedByMixin, ModelViewSet):
         "server_uri",
         "bind_cn",
         "peer_certificate",
+        "client_certificate",
         "start_tls",
         "base_dn",
         "additional_user_dn",

@@ -44,7 +44,6 @@ services:
     volumes:
       - ./media:/media
       - ./custom-templates:/templates
-      - ./ldap-tls:/ldap-tls
     env_file:
       - .env
     ports:
