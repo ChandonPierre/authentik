@@ -13,10 +13,12 @@ import { ifDefined } from "lit/directives/if-defined.js";
 
 import {
     CertificateKeyPair,
+    ClientCertificateKeyPair,
     CoreApi,
     CoreGroupsListRequest,
     CryptoApi,
     CryptoCertificatekeypairsListRequest,
+    CryptoClientCertificatekeypairsListRequest,
     Group,
     LDAPSource,
     LDAPSourceRequest,
@@ -219,14 +221,14 @@ export class LDAPSourceForm extends ModelForm<LDAPSource, string> {
                         </p>
                     </ak-form-element-horizontal>
                     <ak-form-element-horizontal
-                        label=${t`TLS Verification Certificate`}
+                        label=${t`Client TLS Authentication Certificate`}
                         name="clientCertificate"
                     >
                         <ak-search-select
                             .fetchObjects=${async (
                                 query?: string,
-                            ): Promise<CertificateKeyPair[]> => {
-                                const args: CryptoCertificatekeypairsListRequest = {
+                            ): Promise<ClientCertificateKeyPair[]> => {
+                                const args: CryptoClientCertificatekeypairsListRequest = {
                                     ordering: "name",
                                     includeDetails: false,
                                 };
@@ -238,13 +240,13 @@ export class LDAPSourceForm extends ModelForm<LDAPSource, string> {
                                 ).cryptoCertificatekeypairsList(args);
                                 return certificates.results;
                             }}
-                            .renderElement=${(item: CertificateKeyPair): string => {
+                            .renderElement=${(item: ClientCertificateKeyPair): string => {
                                 return item.name;
                             }}
-                            .value=${(item: CertificateKeyPair | undefined): string | undefined => {
+                            .value=${(item: ClientCertificateKeyPair | undefined): string | undefined => {
                                 return item?.pk;
                             }}
-                            .selected=${(item: CertificateKeyPair): boolean => {
+                            .selected=${(item: ClientCertificateKeyPair): boolean => {
                                 return item.pk === this.instance?.clientCertificate;
                             }}
                             ?blankable=${true}

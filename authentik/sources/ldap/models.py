@@ -40,6 +40,7 @@ class LDAPSource(Source):
         on_delete=models.SET_DEFAULT,
         default=None,
         null=True,
+        related_name='+',
         help_text=_(
             "Optionally verify the LDAP Server's Certificate against the CA Chain in this keypair."
         ),
@@ -49,6 +50,7 @@ class LDAPSource(Source):
         on_delete=models.SET_DEFAULT,
         default=None,
         null=True,
+        related_name='+',
         help_text=_(
             "Client certificate to authenticate against the LDAP Server's Certificate."
         ),
