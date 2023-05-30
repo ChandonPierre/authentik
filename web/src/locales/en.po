@@ -7068,6 +7068,11 @@ msgstr "TLS Authentication Certificate/SSH Keypair"
 msgid "TLS Verification Certificate"
 msgstr "TLS Verification Certificate"
 
+#: src/admin/outposts/ServiceConnectionDockerForm.ts
+#: src/admin/sources/ldap/LDAPSourceForm.ts
+msgid "Client TLS Authentication Certificate"
+msgstr "Client TLS Authentication Certificate"
+
 #: src/admin/events/EventInfo.ts
 msgid "To"
 msgstr "To"
