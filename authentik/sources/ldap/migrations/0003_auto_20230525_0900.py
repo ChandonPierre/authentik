@@ -10,6 +10,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ("authentik_crypto", "0003_certificatekeypair_managed"),
         ("authentik_sources_ldap", "0001_squashed_0012_auto_20210812_1703"),
+        ("authentik_sources_ldap", "0002_auto_20211203_0900"),
     ]
 
     operations = [
