@@ -40,7 +40,7 @@ class LDAPSource(Source):
         on_delete=models.SET_DEFAULT,
         default=None,
         null=True,
-        related_name='ldap_peer_certificates',
+        related_name="ldap_peer_certificates",
         help_text=_(
             "Optionally verify the LDAP Server's Certificate against the CA Chain in this keypair."
         ),
@@ -50,12 +50,9 @@ class LDAPSource(Source):
         on_delete=models.SET_DEFAULT,
         default=None,
         null=True,
-        related_name='ldap_client_certificates',
-        help_text=_(
-            "Client certificate to authenticate against the LDAP Server's Certificate."
-        ),
+        related_name="ldap_client_certificates",
+        help_text=_("Client certificate to authenticate against the LDAP Server's Certificate."),
     )
-
 
     bind_cn = models.TextField(verbose_name=_("Bind CN"), blank=True)
     bind_password = models.TextField(blank=True)
@@ -126,10 +123,10 @@ class LDAPSource(Source):
             tls_kwargs["ca_certs_data"] = self.peer_certificate.certificate_data
             tls_kwargs["validate"] = CERT_REQUIRED
         if self.client_certificate:
-            with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_cert:
+            with tempfile.NamedTemporaryFile(mode="w", delete=False) as temp_cert:
                 temp_cert.write(self.client_certificate.certificate_data)
                 certificate_file = temp_cert.name
-            with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_key:
+            with tempfile.NamedTemporaryFile(mode="w", delete=False) as temp_key:
                 temp_key.write(self.client_certificate.key_data)
                 private_key_file = temp_key.name
             tls_kwargs["local_private_key_file"] = private_key_file
@@ -137,7 +134,7 @@ class LDAPSource(Source):
             tls_kwargs["validate"] = CERT_REQUIRED
         if ciphers := CONFIG.y("ldap.tls.ciphers", None):
             tls_kwargs["ciphers"] = ciphers.strip()
-        if sni := CONFIG.y("ldap.tls.sni", None):
+        if CONFIG.y("ldap.tls.sni", None):
             tls_kwargs["sni"] = self.server_uri.strip()
         server_kwargs = {
             "get_info": ALL,
