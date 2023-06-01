@@ -13,12 +13,10 @@ import { ifDefined } from "lit/directives/if-defined.js";
 
 import {
     CertificateKeyPair,
-    ClientCertificateKeyPair,
     CoreApi,
     CoreGroupsListRequest,
     CryptoApi,
     CryptoCertificatekeypairsListRequest,
-    CryptoClientCertificatekeypairsListRequest,
     Group,
     LDAPSource,
     LDAPSourceRequest,
@@ -227,8 +225,8 @@ export class LDAPSourceForm extends ModelForm<LDAPSource, string> {
                         <ak-search-select
                             .fetchObjects=${async (
                                 query?: string,
-                            ): Promise<ClientCertificateKeyPair[]> => {
-                                const args: CryptoClientCertificatekeypairsListRequest = {
+                            ): Promise<CertificateKeyPair[]> => {
+                                const args: CryptoCertificatekeypairsListRequest = {
                                     ordering: "name",
                                     includeDetails: false,
                                 };
@@ -240,13 +238,13 @@ export class LDAPSourceForm extends ModelForm<LDAPSource, string> {
                                 ).cryptoCertificatekeypairsList(args);
                                 return certificates.results;
                             }}
-                            .renderElement=${(item: ClientCertificateKeyPair): string => {
+                            .renderElement=${(item: CertificateKeyPair): string => {
                                 return item.name;
                             }}
-                            .value=${(item: ClientCertificateKeyPair | undefined): string | undefined => {
+                            .value=${(item: CertificateKeyPair | undefined): string | undefined => {
                                 return item?.pk;
                             }}
-                            .selected=${(item: ClientCertificateKeyPair): boolean => {
+                            .selected=${(item: CertificateKeyPair): boolean => {
                                 return item.pk === this.instance?.clientCertificate;
                             }}
                             ?blankable=${true}
