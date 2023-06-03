@@ -9,15 +9,36 @@ ENV NODE_ENV=production
 WORKDIR /work/website
 RUN npm ci --include=dev && npm run build-docs-only
 
+# Stage 1.5: Locally build schema
+FROM docker.io/openapitools/openapi-generator-cli:v6.5.0 as schema-builder
+
+WORKDIR /local
+
+COPY ./schema.yml /local/schema.yml
+COPY ./scripts/ /local/scripts/
+
+ARG NPM_VERSION="2023.5.3-1685646044"
+
+RUN bash /usr/local/bin/docker-entrypoint.sh generate -i /local/schema.yml \
+            -g typescript-fetch \
+            -o /local/gen-ts-api \
+            -c /local/scripts/api-ts-config.yaml \
+            --additional-properties=npmVersion=${NPM_VERSION} \
+            --git-repo-id authentik \
+            --git-user-id goauthentik
+
 # Stage 2: Build webui
 FROM --platform=${BUILDPLATFORM} docker.io/node:20 as web-builder
 
 COPY ./web /work/web/
 COPY ./website /work/website/
+COPY --from=schema-builder /local/gen-ts-api /work/gen-ts-api
 
 ENV NODE_ENV=production
+WORKDIR /work/gen-ts-api
+RUN npm install typescript -g && npm i
 WORKDIR /work/web
-RUN npm ci --include=dev && npm run build
+RUN npm ci --include=dev && cp -rfv /work/gen-ts-api/* /work/web/node_modules/@goauthentik/api/ && npm run build
 
 # Stage 3: Poetry to requirements.txt export
 FROM docker.io/python:3.11.3-slim-bullseye AS poetry-locker
