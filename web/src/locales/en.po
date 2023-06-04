@@ -2491,6 +2491,10 @@ msgstr "Embedded outpost is not configured correctly."
 msgid "Enable StartTLS"
 msgstr "Enable StartTLS"
 
+#: src/admin/sources/ldap/LDAPSourceForm.ts
+msgid "Use Server URI for SNI verification"
+msgstr "Use Server URI for SNI verification"
+
 #:
 #~ msgid "Enable Static Tokens"
 #~ msgstr "Enable Static Tokens"
@@ -7101,6 +7105,10 @@ msgstr "To let a user directly reset a their password, configure a recovery flow
 #: src/admin/sources/ldap/LDAPSourceForm.ts
 msgid "To use SSL instead, use 'ldaps://' and disable this option."
 msgstr "To use SSL instead, use 'ldaps://' and disable this option."
+
+#: src/admin/sources/ldap/LDAPSourceForm.ts
+msgid "Required for servers using TLS 1.3+"
+msgstr "Required for servers using TLS 1.3+"
 
 #: src/admin/providers/scim/SCIMProviderForm.ts
 msgid "Token"

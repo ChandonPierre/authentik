@@ -2477,6 +2477,10 @@ msgstr ""
 msgid "Enable StartTLS"
 msgstr ""
 
+#: src/admin/sources/ldap/LDAPSourceForm.ts
+msgid "Use Server URI for SNI verification"
+msgstr ""
+
 #:
 #~ msgid "Enable Static Tokens"
 #~ msgstr ""

@@ -57,6 +57,7 @@ class LDAPSource(Source):
     bind_cn = models.TextField(verbose_name=_("Bind CN"), blank=True)
     bind_password = models.TextField(blank=True)
     start_tls = models.BooleanField(default=False, verbose_name=_("Enable Start TLS"))
+    sni = models.BooleanField(default=False, verbose_name=_("Use Server URI for SNI verification"))
 
     base_dn = models.TextField(verbose_name=_("Base DN"))
     additional_user_dn = models.TextField(
@@ -134,7 +135,7 @@ class LDAPSource(Source):
             tls_kwargs["validate"] = CERT_REQUIRED
         if ciphers := CONFIG.y("ldap.tls.ciphers", None):
             tls_kwargs["ciphers"] = ciphers.strip()
-        if CONFIG.y("ldap.tls.sni", None):
+        if self.sni:
             tls_kwargs["sni"] = self.server_uri.strip()
         server_kwargs = {
             "get_info": ALL,

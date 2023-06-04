@@ -182,6 +182,24 @@ export class LDAPSourceForm extends ModelForm<LDAPSource, string> {
                             ${t`To use SSL instead, use 'ldaps://' and disable this option.`}
                         </p>
                     </ak-form-element-horizontal>
+                    <ak-form-element-horizontal name="sni">
+                        <label class="pf-c-switch">
+                            <input
+                                class="pf-c-switch__input"
+                                type="checkbox"
+                                ?checked=${first(this.instance?.sni, true)}
+                            />
+                            <span class="pf-c-switch__toggle">
+                                <span class="pf-c-switch__toggle-icon">
+                                    <i class="fas fa-check" aria-hidden="true"></i>
+                                </span>
+                            </span>
+                            <span class="pf-c-switch__label">${t`Use Server URI for SNI verification`}</span>
+                        </label>
+                        <p class="pf-c-form__helper-text">
+                            ${t`Required for servers using TLS 1.3+`}
+                        </p>
+                    </ak-form-element-horizontal>
                     <ak-form-element-horizontal
                         label=${t`TLS Verification Certificate`}
                         name="peerCertificate"
