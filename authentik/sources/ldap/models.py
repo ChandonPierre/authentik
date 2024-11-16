@@ -15,7 +15,7 @@ from authentik.crypto.models import CertificateKeyPair
 from authentik.lib.config import CONFIG
 from authentik.lib.models import DomainlessURLValidator
 
-LDAP_TIMEOUT = 15
+LDAP_TIMEOUT = 60
 
 
 class MultiURLValidator(DomainlessURLValidator):
@@ -151,7 +151,7 @@ class LDAPSource(Source):
                 servers.append(Server(server, **server_kwargs))
         else:
             servers = [Server(self.server_uri, **server_kwargs)]
-        return ServerPool(servers, RANDOM, active=5, exhaust=True)
+        return ServerPool(servers, RANDOM, active=1, exhaust=False)
 
     def connection(
         self, server_kwargs: Optional[dict] = None, connection_kwargs: Optional[dict] = None
@@ -166,7 +166,6 @@ class LDAPSource(Source):
         connection = Connection(
             self.server(**server_kwargs),
             raise_exceptions=True,
-            receive_timeout=LDAP_TIMEOUT,
             **connection_kwargs,
         )
 

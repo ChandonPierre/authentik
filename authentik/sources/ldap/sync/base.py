@@ -1,5 +1,6 @@
 """Sync LDAP Users and groups into authentik"""
 from typing import Any, Generator
+from time import sleep
 
 from django.conf import settings
 from django.db.models.base import Model
@@ -95,6 +96,7 @@ class BaseLDAPSynchronizer:
         controls=None,
         paged_size=CONFIG.get_int("ldap.page_size", 50),
         paged_criticality=False,
+        rate_limit_delay=10,
     ):
         """Search in pages, returns each page"""
         cookie = True
@@ -120,6 +122,7 @@ class BaseLDAPSynchronizer:
                 ]
             except KeyError:
                 cookie = None
+            sleep(rate_limit_delay)
             yield self._connection.response
 
     def _flatten(self, value: Any) -> Any:
